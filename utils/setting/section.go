@@ -6,12 +6,14 @@ type ServerSettingS struct {
 }
 
 type DatabaseSettingS struct {
-	DBType     string
-	DBHost     string
-	DBPort     string
-	DBName     string
-	DBUser     string
-	DBPassWord string
+	DBType    string
+	Host      string
+	Port      string
+	DBName    string
+	UserName  string
+	PassWord  string
+	Charset   string
+	ParseTime bool
 }
 
 func (s *Setting) ReadSection(k string, v interface{}) error {

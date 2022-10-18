@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 	"myblog/global"
+	"myblog/model"
+	"myblog/routers"
 	"myblog/utils/setting"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,19 +13,18 @@ import (
 func init() {
 	err := setupSetting()
 	if err != nil {
-		fmt.Println("Error is ", err.Error())
+		fmt.Printf("读取参数失败，请检查参数：%s", err)
+	}
+	err = setupDBEngine()
+	if err != nil {
+		fmt.Printf("数据库连接错误：%s", err)
 	}
 }
 
 func main() {
 	gin.SetMode(global.ServerSetting.AppMode)
-	r := gin.Default()
-	r.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run()
+	r := routers.NewRouter()
+	r.Run(global.ServerSetting.HttpPort)
 }
 
 func setupSetting() error {
@@ -37,6 +37,16 @@ func setupSetting() error {
 		return err
 	}
 	err = setting.ReadSection("Database", &global.DatabaseSetting)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func setupDBEngine() error {
+	var err error
+	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
 	if err != nil {
 		return err
 	}
