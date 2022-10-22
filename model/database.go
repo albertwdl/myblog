@@ -40,9 +40,15 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 		db.Logger.LogMode(logger.Info)
 	}
 
-	db.AutoMigrate()
+	err = db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&User{}, &Article{}, &Tag{})
+	if err != nil {
+		return nil, err
+	}
 
 	sqlDB, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(10 * time.Second)
