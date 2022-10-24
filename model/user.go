@@ -27,7 +27,6 @@ func CheckUser(name string) int {
 }
 
 func CreateUser(data *User) int {
-	data.Password = ScryptPassword(data.Password)
 	err := global.DBEngine.Create(data)
 	if err != nil {
 		return errmsg.ERROR
@@ -50,6 +49,11 @@ func GetUsers(pageSize int, pageNum int) []User {
 		return nil
 	}
 	return users
+}
+
+func (u *User) BeforeCreate(tx *gorm.DB) error {
+	u.Password = ScryptPassword(u.Password)
+	return nil
 }
 
 func ScryptPassword(password string) string {
