@@ -51,6 +51,14 @@ func GetUsers(pageSize int, pageNum int) []User {
 	return users
 }
 
+func DeleteUser(id int) int {
+	err := global.DBEngine.Delete(&User{}, id).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
 func (u *User) BeforeCreate(tx *gorm.DB) error {
 	u.Password = ScryptPassword(u.Password)
 	return nil

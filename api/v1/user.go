@@ -41,12 +41,6 @@ func GetUser(c *gin.Context) {
 func GetUsers(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
-	if pageSize == 0 {
-		pageSize = -1
-	}
-	if pageNum == 0 {
-		pageNum = -1
-	}
 
 	data := model.GetUsers(pageSize, pageNum)
 	code := errmsg.SUCCESS
@@ -65,5 +59,11 @@ func EditUser(c *gin.Context) {
 
 // 删除用户
 func DeleteUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
 
+	code := model.DeleteUser(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
 }
