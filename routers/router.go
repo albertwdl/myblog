@@ -22,7 +22,7 @@ func NewRouter() *gin.Engine {
 
 		// 用户模块的路由接口
 		apiv1.POST("user/add", v1.AddUser)
-		apiv1.GET("users", v1.GetUser)
+		apiv1.GET("users", v1.GetUsers)
 		apiv1.PUT("user/:id", v1.EditUser)
 		apiv1.DELETE("user/:id", v1.DeleteUser)
 
