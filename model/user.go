@@ -1,9 +1,12 @@
 package model
 
 import (
+	"encoding/base64"
+	"log"
 	"myblog/global"
 	"myblog/utils/errmsg"
 
+	"golang.org/x/crypto/scrypt"
 	"gorm.io/gorm"
 )
 
@@ -24,6 +27,7 @@ func CheckUser(name string) int {
 }
 
 func CreateUser(data *User) int {
+	data.Password = ScryptPassword(data.Password)
 	err := global.DBEngine.Create(data)
 	if err != nil {
 		return errmsg.ERROR
@@ -46,4 +50,14 @@ func GetUsers(pageSize int, pageNum int) []User {
 		return nil
 	}
 	return users
+}
+
+func ScryptPassword(password string) string {
+	const keyLen = 10
+	salt := []byte{82, 47, 96, 90, 12, 38, 45, 92}
+	dk, err := scrypt.Key([]byte(password), salt, 1<<14, 8, 1, keyLen)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return base64.StdEncoding.EncodeToString(dk)
 }
