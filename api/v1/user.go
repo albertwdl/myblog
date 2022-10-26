@@ -21,7 +21,7 @@ func AddUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	code := model.CheckUser(data.UserName)
+	_, code := model.CheckUser(data.UserName)
 	if code == errmsg.SUCCESS {
 		model.CreateUser(&data)
 	}
@@ -54,14 +54,32 @@ func GetUsers(c *gin.Context) {
 
 // 编辑用户
 func EditUser(c *gin.Context) {
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
+	var data model.User
+	c.ShouldBindJSON(&data)
+	checkID, code := model.CheckUser(data.UserName)
+	if code == errmsg.ERROR_USERNAME_USED && checkID != uint(id) {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  code,
+			"data":    data,
+			"message": errmsg.GetErrMsg(code),
+		})
+		c.Abort()
+	}
 
+	code = model.EditUser(uint(id), &data)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
+	})
 }
 
 // 删除用户
 func DeleteUser(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
 
-	code := model.DeleteUser(id)
+	code := model.DeleteUser(uint(id))
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrMsg(code),

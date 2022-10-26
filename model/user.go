@@ -17,13 +17,13 @@ type User struct {
 	Role     int    `gorm:"type: int" json:"role" binding:"required"`
 }
 
-func CheckUser(name string) int {
+func CheckUser(name string) (uint, int) {
 	var users User
 	global.DBEngine.Select("id").Where("user_name = ?", name).Find(&users)
 	if users.ID > 0 {
-		return errmsg.ERROR_USERNAME_USED
+		return users.ID, errmsg.ERROR_USERNAME_USED
 	}
-	return errmsg.SUCCESS
+	return users.ID, errmsg.SUCCESS
 }
 
 func CreateUser(data *User) int {
@@ -51,8 +51,24 @@ func GetUsers(pageSize int, pageNum int) []User {
 	return users
 }
 
-func DeleteUser(id int) int {
+func DeleteUser(id uint) int {
 	err := global.DBEngine.Delete(&User{}, id).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 编辑用户信息
+func EditUser(id uint, data *User) int {
+	maps := make(map[string]interface{})
+	if data.UserName != "" {
+		maps["user_name"] = data.UserName
+	}
+	if data.Role != 0 {
+		maps["role"] = data.Role
+	}
+	err := global.DBEngine.Model(&User{}).Where("id = ?", id).Updates(maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
