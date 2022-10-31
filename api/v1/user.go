@@ -9,11 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 查询用户是否存在
-func UserExist(c *gin.Context) {
-	// todo
-}
-
 // 添加用户
 func AddUser(c *gin.Context) {
 	var data model.User
@@ -56,7 +51,10 @@ func GetUsers(c *gin.Context) {
 func EditUser(c *gin.Context) {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
 	var data model.User
-	c.ShouldBindJSON(&data)
+	if err := c.ShouldBindJSON(&data); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	checkID, code := model.CheckUser(data.UserName)
 	if code == errmsg.ERROR_USERNAME_USED && checkID != uint(id) {
 		c.JSON(http.StatusOK, gin.H{

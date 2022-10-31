@@ -18,12 +18,12 @@ type User struct {
 }
 
 func CheckUser(name string) (uint, int) {
-	var users User
-	global.DBEngine.Select("id").Where("user_name = ?", name).Find(&users)
-	if users.ID > 0 {
-		return users.ID, errmsg.ERROR_USERNAME_USED
+	var user User
+	global.DBEngine.Select("id").Where("user_name = ?", name).Find(&user)
+	if user.ID > 0 {
+		return user.ID, errmsg.ERROR_USERNAME_USED
 	}
-	return users.ID, errmsg.SUCCESS
+	return user.ID, errmsg.SUCCESS
 }
 
 func CreateUser(data *User) int {

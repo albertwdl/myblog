@@ -13,9 +13,10 @@ const (
 	ERROR_TOKEN_WRONG     = 1006
 	ERROR_TOKEN_FORMAT    = 1007
 
-	// 文章模块错误 2000...
+	// 标签模块错误 2000...
+	ERROR_TAGNAME_USED = 3001
 
-	// 分类模块错误 3000...
+	// 文章模块错误 3000...
 
 )
 
@@ -29,6 +30,7 @@ var codeMsg = map[int]string{
 	ERROR_TOKEN_RUNTIME:   "TOKEN已过期",
 	ERROR_TOKEN_WRONG:     "TOKEN不正确",
 	ERROR_TOKEN_FORMAT:    "TOKEN格式错误",
+	ERROR_TAGNAME_USED:    "标签名已存在",
 }
 
 func GetErrMsg(code int) string {

@@ -27,6 +27,10 @@ func NewRouter() *gin.Engine {
 		apiv1.DELETE("user/:id", v1.DeleteUser)
 
 		// 标签模块的路由接口
+		apiv1.POST("tag/add", v1.AddTag)
+		apiv1.GET("tags", v1.GetTags)
+		apiv1.PUT("tag/:id", v1.EditTag)
+		apiv1.DELETE("tag/:id", v1.DeleteTag)
 
 		// 文章模块的路由接口
 
