@@ -23,7 +23,7 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=%t",
 		global.DatabaseSetting.UserName,
-		global.DatabaseSetting.PassWord,
+		global.DatabaseSetting.Password,
 		global.DatabaseSetting.Host,
 		global.DatabaseSetting.Port,
 		global.DatabaseSetting.DBName,

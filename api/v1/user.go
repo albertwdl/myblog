@@ -16,7 +16,7 @@ func AddUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	_, code := model.CheckUser(data.UserName)
+	_, code := model.CheckUser(data.Username)
 	if code == errmsg.SUCCESS {
 		model.CreateUser(&data)
 	}
@@ -55,7 +55,7 @@ func EditUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	checkID, code := model.CheckUser(data.UserName)
+	checkID, code := model.CheckUser(data.Username)
 	if code == errmsg.ERROR_USERNAME_USED && checkID != uint(id) {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  code,

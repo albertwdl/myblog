@@ -12,14 +12,14 @@ import (
 
 type User struct {
 	gorm.Model
-	UserName string `gorm:"type: varchar(20);not null" json:"username" binding:"required"`
+	Username string `gorm:"type: varchar(20);not null" json:"username" binding:"required"`
 	Password string `gorm:"type: varchar(20);not null" json:"password" binding:"required"`
 	Role     int    `gorm:"type: int" json:"role" binding:"required"`
 }
 
 func CheckUser(name string) (uint, int) {
 	var user User
-	global.DBEngine.Select("id").Where("user_name = ?", name).Find(&user)
+	global.DBEngine.Select("id").Where("username = ?", name).Find(&user)
 	if user.ID > 0 {
 		return user.ID, errmsg.ERROR_USERNAME_USED
 	}
@@ -62,8 +62,8 @@ func DeleteUser(id uint) int {
 // 编辑用户信息
 func EditUser(id uint, data *User) int {
 	maps := make(map[string]interface{})
-	if data.UserName != "" {
-		maps["user_name"] = data.UserName
+	if data.Username != "" {
+		maps["username"] = data.Username
 	}
 	if data.Role != 0 {
 		maps["role"] = data.Role
