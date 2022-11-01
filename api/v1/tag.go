@@ -30,10 +30,10 @@ func AddTag(c *gin.Context) {
 }
 
 // 查询单个标签下的文章
-func GetArticlesByTag(c *gin.Context) {
-	// var articles []model.Article
-	// tagName := c.Param("tag")
-}
+// func GetArticlesByTag(c *gin.Context) {
+// 	// var articles []model.Article
+// 	// tagName := c.Param("tag")
+// }
 
 // 查询标签列表
 func GetTags(c *gin.Context) {

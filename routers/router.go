@@ -35,6 +35,8 @@ func NewRouter() *gin.Engine {
 		// 文章模块的路由接口
 		apiv1.POST("article/add", v1.AddArticle)
 		apiv1.GET("articles", v1.GetArticles)
+		apiv1.GET("articlesbytag/:id", v1.GetArticlesByTag)
+		apiv1.GET("article/info/:id", v1.GetArticleInfo)
 		apiv1.PUT("article/:id", v1.EditArticle)
 		apiv1.DELETE("article/:id", v1.DeleteArticle)
 

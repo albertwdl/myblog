@@ -34,21 +34,58 @@ func CreateArticle(data *Article) int {
 	return errmsg.SUCCESS
 }
 
-func GetArticles(pageSize int, pageNum int) []Article {
+func GetArticlesByTag(tid uint, pageSize int, pageNum int) ([]Article, int) {
+	var articles []Article
+	var tag Tag
+
+	// 首先检查tagID是否存在
+	err := global.DBEngine.Where("id = ?", tid).Find(&tag).Error
+	if err != nil {
+		return articles, errmsg.ERROR_TAG_NOT_EXIST
+	}
+
+	if pageSize > 0 && pageNum > 0 {
+		err = global.DBEngine.Model(&tag).Limit(pageSize).Offset((pageNum - 1) * pageSize).Association("Articles").Find(&articles)
+	} else if pageSize > 0 && pageNum <= 0 {
+		err = global.DBEngine.Model(&tag).Limit(pageSize).Association("Articles").Find(&articles)
+	} else {
+		err = global.DBEngine.Model(&tag).Association("Articles").Find(&articles)
+	}
+
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, errmsg.ERROR
+	}
+	return articles, errmsg.SUCCESS
+}
+
+func GetArticleInfo(id uint) (Article, int) {
+	var article Article
+	err := global.DBEngine.Preload("Tags").Where("id = ?", id).Take(&article).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return article, errmsg.ERROR_ARTICLE_NOT_EXIST
+		} else {
+			return article, errmsg.ERROR
+		}
+	}
+	return article, errmsg.SUCCESS
+}
+
+func GetArticles(pageSize int, pageNum int) ([]Article, int) {
 	var articles []Article
 	var result *gorm.DB
 	if pageSize > 0 && pageNum > 0 {
-		result = global.DBEngine.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&articles)
+		result = global.DBEngine.Preload("Tags").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&articles)
 	} else if pageSize > 0 && pageNum <= 0 {
-		result = global.DBEngine.Limit(pageSize).Find(&articles)
+		result = global.DBEngine.Preload("Tags").Limit(pageSize).Find(&articles)
 	} else {
-		result = global.DBEngine.Find(&articles)
+		result = global.DBEngine.Preload("Tags").Find(&articles)
 	}
 
 	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
-		return nil
+		return nil, errmsg.ERROR
 	}
-	return articles
+	return articles, errmsg.SUCCESS
 }
 
 func DeleteArticle(id uint) int {

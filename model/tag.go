@@ -34,11 +34,11 @@ func GetTags(pageSize int, pageNum int) []Tag {
 	var tags []Tag
 	var result *gorm.DB
 	if pageSize > 0 && pageNum > 0 {
-		result = global.DBEngine.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&tags)
+		result = global.DBEngine.Preload("Articles").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&tags)
 	} else if pageSize > 0 && pageNum <= 0 {
-		result = global.DBEngine.Limit(pageSize).Find(&tags)
+		result = global.DBEngine.Preload("Articles").Limit(pageSize).Find(&tags)
 	} else {
-		result = global.DBEngine.Find(&tags)
+		result = global.DBEngine.Preload("Articles").Find(&tags)
 	}
 
 	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
