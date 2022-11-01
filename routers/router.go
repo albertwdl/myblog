@@ -33,6 +33,10 @@ func NewRouter() *gin.Engine {
 		apiv1.DELETE("tag/:id", v1.DeleteTag)
 
 		// 文章模块的路由接口
+		apiv1.POST("article/add", v1.AddArticle)
+		apiv1.GET("articles", v1.GetArticles)
+		apiv1.PUT("article/:id", v1.EditArticle)
+		apiv1.DELETE("article/:id", v1.DeleteArticle)
 
 	}
 

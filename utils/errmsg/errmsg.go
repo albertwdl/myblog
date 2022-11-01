@@ -14,7 +14,7 @@ const (
 	ERROR_TOKEN_FORMAT    = 1007
 
 	// 标签模块错误 2000...
-	ERROR_TAGNAME_USED = 3001
+	ERROR_TAGNAME_USED = 2001
 
 	// 文章模块错误 3000...
 
