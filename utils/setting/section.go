@@ -3,6 +3,7 @@ package setting
 type ServerSettingS struct {
 	AppMode  string
 	HttpPort string
+	JwtKey   string
 }
 
 type DatabaseSettingS struct {
