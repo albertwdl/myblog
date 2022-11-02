@@ -12,6 +12,7 @@ const (
 	ERROR_TOKEN_RUNTIME      = 1005
 	ERROR_TOKEN_WRONG        = 1006
 	ERROR_TOKEN_FORMAT_WRONG = 1007
+	ERROR_USER_NO_RIGHT      = 1008
 
 	// 标签模块错误 2000...
 	ERROR_TAGNAME_USED  = 2001
@@ -31,6 +32,7 @@ var codeMsg = map[int]string{
 	ERROR_TOKEN_RUNTIME:      "TOKEN已过期",
 	ERROR_TOKEN_WRONG:        "TOKEN不正确",
 	ERROR_TOKEN_FORMAT_WRONG: "TOKEN格式错误",
+	ERROR_USER_NO_RIGHT:      "用户无权限",
 	ERROR_TAGNAME_USED:       "标签名已存在",
 	ERROR_ARTICLE_NOT_EXIST:  "文章不存在",
 }

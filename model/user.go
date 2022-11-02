@@ -89,3 +89,22 @@ func ScryptPassword(password string) string {
 	}
 	return base64.StdEncoding.EncodeToString(dk)
 }
+
+// 登录验证
+func CheckLogin(username string, password string) int {
+	var user User
+	err := global.DBEngine.Where("username = ?", username).Find(&user).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	if user.ID == 0 {
+		return errmsg.ERROR_USER_NOT_EXIST
+	}
+	if ScryptPassword(password) != user.Password {
+		return errmsg.ERROR_PASSWORD_WRONG
+	}
+	if user.Role != 1 {
+		return errmsg.ERROR_USER_NO_RIGHT
+	}
+	return errmsg.SUCCESS
+}
