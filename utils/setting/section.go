@@ -17,6 +17,13 @@ type DatabaseSettingS struct {
 	ParseTime bool
 }
 
+type QiniuCloudSettingS struct {
+	AccessKey   string
+	SecretKey   string
+	Bucket      string
+	QiniuServer string
+}
+
 func (s *Setting) ReadSection(k string, v interface{}) error {
 	err := s.vp.UnmarshalKey(k, v)
 	if err != nil {

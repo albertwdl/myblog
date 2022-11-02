@@ -40,6 +40,10 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+	err = setting.ReadSection("Qiniu", &global.QiniuCloudSetting)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

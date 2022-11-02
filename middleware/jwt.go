@@ -112,7 +112,7 @@ func JwtToken() gin.HandlerFunc {
 		}
 
 		// 检查该用户是否存在
-		if err := global.DBEngine.Where("username = ?", key.Username).Find(&model.User{}); err != nil {
+		if err := global.DBEngine.Where("username = ?", key.Username).Find(&model.User{}).Error; err != nil {
 			code = errmsg.ERROR_USER_NOT_EXIST
 			c.JSON(http.StatusOK, gin.H{
 				"code":    code,

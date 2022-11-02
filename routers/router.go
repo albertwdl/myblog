@@ -30,6 +30,9 @@ func NewRouter() *gin.Engine {
 		authapiv1.PUT("article/:id", v1.EditArticle)
 		authapiv1.DELETE("article/:id", v1.DeleteArticle)
 
+		// 上传文件
+		authapiv1.POST("upload", v1.UpLoad)
+
 	}
 
 	apiv1 := r.Group("api/v1")
