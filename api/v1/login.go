@@ -26,6 +26,7 @@ func Login(c *gin.Context) {
 			})
 			return
 		}
+		c.Set("username", user.Username)
 	}
 
 	c.JSON(http.StatusOK, gin.H{

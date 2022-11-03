@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"myblog/global"
 	"myblog/model"
 	"myblog/routers"
@@ -13,11 +13,11 @@ import (
 func init() {
 	err := setupSetting()
 	if err != nil {
-		fmt.Printf("读取参数失败，请检查参数：%s", err)
+		log.Fatalf("读取参数失败，请检查参数：%s", err)
 	}
 	err = setupDBEngine()
 	if err != nil {
-		fmt.Printf("数据库连接错误：%s", err)
+		log.Fatalf("数据库连接错误：%s", err)
 	}
 }
 

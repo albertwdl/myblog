@@ -9,7 +9,7 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	r.Use(gin.Logger())
+	r.Use(middleware.Logger())
 	r.Use(gin.Recovery())
 
 	authapiv1 := r.Group("api/v1")
