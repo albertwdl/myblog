@@ -12,9 +12,9 @@ import (
 
 type User struct {
 	gorm.Model
-	Username string `gorm:"type: varchar(20);not null" json:"username" binding:"required"`
-	Password string `gorm:"type: varchar(20);not null" json:"password" binding:"required"`
-	Role     int    `gorm:"type: int" json:"role" binding:"required"`
+	Username string `gorm:"type: varchar(20);not null" json:"username" binding:"required" validate:"required,min=4,max=12" label:"用户名"`
+	Password string `gorm:"type: varchar(20);not null" json:"password" binding:"required" validate:"required,min=8,max=20" label:"密码"`
+	Role     int    `gorm:"type: int;DEFAULT:2" json:"role" binding:"required" validate:"required,gte=2" label:"角色码"`
 }
 
 func CheckUser(name string) (uint, int) {
