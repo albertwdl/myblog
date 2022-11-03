@@ -34,16 +34,18 @@ func CreateArticle(data *Article) int {
 	return errmsg.SUCCESS
 }
 
-func GetArticlesByTag(tid uint, pageSize int, pageNum int) ([]Article, int) {
+func GetArticlesByTag(tid uint, pageSize int, pageNum int) ([]Article, int, int) {
 	var articles []Article
 	var tag Tag
+	var total int64
 
 	// 首先检查tagID是否存在
 	err := global.DBEngine.Where("id = ?", tid).Find(&tag).Error
 	if err != nil {
-		return articles, errmsg.ERROR_TAG_NOT_EXIST
+		return articles, errmsg.ERROR_TAG_NOT_EXIST, 0
 	}
 
+	total = global.DBEngine.Model(&tag).Association("Articles").Count()
 	if pageSize > 0 && pageNum > 0 {
 		err = global.DBEngine.Model(&tag).Limit(pageSize).Offset((pageNum - 1) * pageSize).Association("Articles").Find(&articles)
 	} else if pageSize > 0 && pageNum <= 0 {
@@ -53,9 +55,9 @@ func GetArticlesByTag(tid uint, pageSize int, pageNum int) ([]Article, int) {
 	}
 
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, errmsg.ERROR
+		return nil, errmsg.ERROR, int(total)
 	}
-	return articles, errmsg.SUCCESS
+	return articles, errmsg.SUCCESS, int(total)
 }
 
 func GetArticleInfo(id uint) (Article, int) {
@@ -71,21 +73,22 @@ func GetArticleInfo(id uint) (Article, int) {
 	return article, errmsg.SUCCESS
 }
 
-func GetArticles(pageSize int, pageNum int) ([]Article, int) {
+func GetArticles(pageSize int, pageNum int) ([]Article, int, int) {
 	var articles []Article
 	var result *gorm.DB
+	var total int64
 	if pageSize > 0 && pageNum > 0 {
-		result = global.DBEngine.Preload("Tags").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&articles)
+		result = global.DBEngine.Preload("Tags").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&articles).Count(&total)
 	} else if pageSize > 0 && pageNum <= 0 {
-		result = global.DBEngine.Preload("Tags").Limit(pageSize).Find(&articles)
+		result = global.DBEngine.Preload("Tags").Limit(pageSize).Find(&articles).Count(&total)
 	} else {
-		result = global.DBEngine.Preload("Tags").Find(&articles)
+		result = global.DBEngine.Preload("Tags").Find(&articles).Count(&total)
 	}
 
 	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
-		return nil, errmsg.ERROR
+		return nil, errmsg.ERROR, int(total)
 	}
-	return articles, errmsg.SUCCESS
+	return articles, errmsg.SUCCESS, int(total)
 }
 
 func DeleteArticle(id uint) int {

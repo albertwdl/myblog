@@ -30,21 +30,22 @@ func CreateTag(data *Tag) int {
 	return errmsg.SUCCESS
 }
 
-func GetTags(pageSize int, pageNum int) []Tag {
+func GetTags(pageSize int, pageNum int) ([]Tag, int) {
 	var tags []Tag
 	var result *gorm.DB
+	var total int64
 	if pageSize > 0 && pageNum > 0 {
-		result = global.DBEngine.Preload("Articles").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&tags)
+		result = global.DBEngine.Preload("Articles").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&tags).Count(&total)
 	} else if pageSize > 0 && pageNum <= 0 {
-		result = global.DBEngine.Preload("Articles").Limit(pageSize).Find(&tags)
+		result = global.DBEngine.Preload("Articles").Limit(pageSize).Find(&tags).Count(&total)
 	} else {
-		result = global.DBEngine.Preload("Articles").Find(&tags)
+		result = global.DBEngine.Preload("Articles").Find(&tags).Count(&total)
 	}
 
 	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
-		return nil
+		return nil, 0
 	}
-	return tags
+	return tags, int(total)
 }
 
 func DeleteTag(id uint) int {

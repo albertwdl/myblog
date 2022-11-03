@@ -32,11 +32,12 @@ func GetArticlesByTag(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
 
-	data, code := model.GetArticlesByTag(uint(tid), pageSize, pageNum)
+	data, code, totalNum := model.GetArticlesByTag(uint(tid), pageSize, pageNum)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
 		"message": errmsg.GetErrMsg(code),
+		"total":   totalNum,
 	})
 }
 
@@ -56,12 +57,13 @@ func GetArticles(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
 
-	data, code := model.GetArticles(pageSize, pageNum)
+	data, code, totalNum := model.GetArticles(pageSize, pageNum)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
 		"message": errmsg.GetErrMsg(code),
+		"total":   totalNum,
 	})
 }
 
