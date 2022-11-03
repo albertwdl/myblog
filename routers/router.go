@@ -9,8 +9,9 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	r.Use(middleware.Logger())
 	r.Use(gin.Recovery())
+	r.Use(middleware.Logger())
+	r.Use(middleware.Cors())
 
 	authapiv1 := r.Group("api/v1")
 	authapiv1.Use(middleware.JwtToken())

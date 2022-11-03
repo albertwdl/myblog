@@ -1,9 +1,0 @@
-time="2022-11-03 20:49:02" level=info Agent=PostmanRuntime/7.29.2 DataSize=66 HostName=VM-4-2-ubuntu Ip=46.232.120.163 Method=POST Path=/api/v1/user/add SpendTime="1 ms" UserName=unknown status=200
-time="2022-11-03 20:49:17" level=info Agent=PostmanRuntime/7.29.2 DataSize=66 HostName=VM-4-2-ubuntu Ip=46.232.120.163 Method=POST Path=/api/v1/user/add SpendTime="1 ms" UserName=unknown status=200
-time="2022-11-03 20:49:39" level=info Agent=PostmanRuntime/7.29.2 DataSize=53 HostName=VM-4-2-ubuntu Ip=46.232.120.164 Method=POST Path=/api/v1/user/add SpendTime="1 ms" UserName=unknown status=200
-time="2022-11-03 20:59:33" level=info Agent=PostmanRuntime/7.29.2 DataSize=210 HostName=VM-4-2-ubuntu Ip=46.232.120.163 Method=POST Path=/api/v1/user/add SpendTime="72 ms" UserName=unknown status=200
-time="2022-11-03 21:03:25" level=info Agent=PostmanRuntime/7.29.2 DataSize=67 HostName=VM-4-2-ubuntu Ip=46.232.120.164 Method=POST Path=/api/v1/user/add SpendTime="1 ms" UserName=unknown status=200
-time="2022-11-03 21:03:32" level=info Agent=PostmanRuntime/7.29.2 DataSize=64 HostName=VM-4-2-ubuntu Ip=46.232.120.164 Method=POST Path=/api/v1/user/add SpendTime="1 ms" UserName=unknown status=200
-time="2022-11-03 21:03:39" level=warning Agent=PostmanRuntime/7.29.2 DataSize=91 HostName=VM-4-2-ubuntu Ip=46.232.120.164 Method=POST Path=/api/v1/user/add SpendTime="1 ms" UserName=unknown status=400
-time="2022-11-03 21:03:54" level=info Agent=PostmanRuntime/7.29.2 DataSize=58 HostName=VM-4-2-ubuntu Ip=46.232.120.164 Method=POST Path=/api/v1/user/add SpendTime="1 ms" UserName=unknown status=200
-time="2022-11-03 21:04:06" level=info Agent=PostmanRuntime/7.29.2 DataSize=212 HostName=VM-4-2-ubuntu Ip=46.232.120.164 Method=POST Path=/api/v1/user/add SpendTime="70 ms" UserName=unknown status=200
